@@ -1,0 +1,30 @@
+{
+  "name": "token-wallet",
+  "version": "1.0.0",
+  "description": "A beginner-friendly Ethereum token wallet CLI application",
+  "main": "src/index.js",
+  "bin": {
+    "token-wallet": "./src/index.js"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ethereum",
+    "wallet",
+    "crypto",
+    "blockchain",
+    "cli"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "commander": "^14.0.2",
+    "dotenv": "^17.2.3",
+    "ethers": "^6.16.0",
+    "inquirer": "^8.2.6"
+  }
+}
