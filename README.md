@@ -196,6 +196,56 @@ token-wallet/
 
 To change networks, edit the `NETWORK` variable in your `.env` file.
 
+## Advanced: Deploy Your Own ERC-20 Token
+
+This project includes tools to deploy your own ERC-20 token on Sepolia testnet!
+
+### Compile the Token Contract
+
+```bash
+node compile-contract.js
+```
+
+This compiles the `contracts/MyToken.sol` contract and saves the ABI and bytecode to `artifacts/MyToken.json`.
+
+### Deploy the Token
+
+1. Make sure you have testnet ETH in your wallet
+2. Create a `test-wallet-info.txt` file with your wallet details (see template)
+3. Run the deployment script:
+
+```bash
+node deploy-token.js
+```
+
+The script will:
+- Deploy the ERC-20 token contract
+- Mint 1,000,000 tokens to your address
+- Save deployment info to `deployment-info.json`
+- Show you the contract address
+
+### Interact with Your Token
+
+Once deployed, you can use the wallet CLI to interact with your token:
+
+```bash
+# Check your token balance
+npm start -- balance YOUR_ADDRESS --token TOKEN_CONTRACT_ADDRESS
+
+# Send tokens (using the interactive CLI)
+npm start -- send RECIPIENT_ADDRESS AMOUNT --token TOKEN_CONTRACT_ADDRESS
+```
+
+### Example Token Contract
+
+The included `contracts/MyToken.sol` is a simple ERC-20 implementation with:
+- Standard transfer and approval functions
+- 18 decimals (standard for most tokens)
+- Configurable name, symbol, and initial supply
+- Well-commented code for learning
+
+Feel free to modify the contract and experiment!
+
 ## Troubleshooting
 
 ### "Invalid RPC URL" or connection errors

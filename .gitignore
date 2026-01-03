@@ -6,6 +6,8 @@ node_modules/
 
 # Wallet files (contains sensitive private keys)
 wallets/
+test-wallet-info.txt
+deployment-info.json
 
 # Logs
 *.log

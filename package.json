@@ -26,5 +26,8 @@
     "dotenv": "^17.2.3",
     "ethers": "^6.16.0",
     "inquirer": "^8.2.6"
+  },
+  "devDependencies": {
+    "solc": "^0.8.20"
   }
 }
