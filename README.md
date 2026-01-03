@@ -1,6 +1,6 @@
-# Ethereum Token Wallet CLI
+# Ethereum Token Wallet
 
-A beginner-friendly command-line interface (CLI) wallet for interacting with Ethereum and ERC-20 tokens. Perfect for learning blockchain development!
+A beginner-friendly wallet for interacting with Ethereum and ERC-20 tokens. Includes both a CLI tool and a modern web interface. Perfect for learning blockchain development!
 
 ## Features
 
@@ -151,6 +151,83 @@ npm start info
 
 Displays current network configuration and settings.
 
+## Web Interface
+
+The project includes a modern React-based web interface for a more user-friendly experience!
+
+### Features
+
+- 🌐 **MetaMask Integration**: Connect your MetaMask wallet directly
+- 💰 **Live Balance Display**: View ETH and ERC-20 token balances in real-time
+- 📤 **Send Transactions**: Transfer ETH and tokens with gas estimation
+- 📜 **Transaction History**: View your complete transaction history
+- 🎨 **Modern UI**: Clean, responsive interface built with React and Tailwind CSS
+- ⚡ **Fast & Reactive**: Real-time updates using React Query
+
+### Setup
+
+1. Navigate to the frontend directory:
+   ```bash
+   cd frontend
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Set up environment variables:
+   ```bash
+   cp .env.example .env
+   ```
+
+4. Edit `frontend/.env` with your configuration:
+   ```env
+   VITE_ETHEREUM_RPC_URL=https://ethereum-sepolia-rpc.publicnode.com
+   VITE_ETHERSCAN_API_KEY=YOUR_ETHERSCAN_KEY
+   VITE_NETWORK=sepolia
+   ```
+
+### Running the Web Interface
+
+Start the development server:
+```bash
+npm run dev
+```
+
+The app will be available at `http://localhost:5173`
+
+### Using the Web Interface
+
+1. **Connect Wallet**: Click "Connect Wallet" and approve the MetaMask connection
+2. **View Balances**: Your ETH balance and token balances will load automatically
+3. **Add Tokens**: Click "Add Token" to track custom ERC-20 tokens
+4. **Send Transactions**:
+   - Choose between ETH or Token transfer
+   - Enter recipient address and amount
+   - Preview gas estimates
+   - Confirm and send via MetaMask
+5. **View History**: Scroll down to see your transaction history (requires Etherscan API key)
+
+### MetaMask Setup
+
+1. Install [MetaMask browser extension](https://metamask.io/download/)
+2. Create or import a wallet
+3. Switch to Sepolia testnet:
+   - Click the network dropdown
+   - Select "Show test networks" in settings
+   - Choose "Sepolia testnet"
+4. Get testnet ETH from faucets (see below)
+
+### Building for Production
+
+```bash
+cd frontend
+npm run build
+```
+
+The production build will be in `frontend/dist/` and can be deployed to any static hosting service (Vercel, Netlify, Cloudflare Pages, etc.)
+
 ## Getting Testnet ETH
 
 To test the wallet, you'll need testnet ETH. Get free Sepolia ETH from these faucets:
@@ -174,17 +251,37 @@ To test the wallet, you'll need testnet ETH. Get free Sepolia ETH from these fau
 
 ```
 token-wallet/
-├── src/
+├── src/                # CLI backend
 │   ├── index.js        # CLI interface and command definitions
 │   ├── wallet.js       # Wallet creation, import, and management
 │   ├── balance.js      # Balance checking functionality
 │   ├── transaction.js  # Transaction sending functionality
 │   ├── history.js      # Transaction history via Etherscan API
 │   └── config.js       # Network configuration
+├── frontend/           # React web interface
+│   ├── src/
+│   │   ├── components/ # React components
+│   │   │   ├── wallet/        # Wallet connection components
+│   │   │   ├── balance/       # Balance display components
+│   │   │   ├── transaction/   # Send transaction components
+│   │   │   └── history/       # Transaction history components
+│   │   ├── hooks/      # Custom React hooks
+│   │   ├── services/   # API and blockchain services
+│   │   ├── store/      # State management (Zustand)
+│   │   ├── config/     # Network configuration
+│   │   ├── App.jsx     # Main app component
+│   │   └── main.jsx    # Entry point
+│   ├── public/         # Static assets
+│   ├── .env            # Frontend environment variables (gitignored)
+│   ├── .env.example    # Example frontend configuration
+│   ├── vite.config.js  # Vite configuration
+│   └── package.json    # Frontend dependencies
+├── contracts/          # Smart contracts
+│   └── MyToken.sol     # Example ERC-20 token
 ├── wallets/            # Encrypted wallet files (gitignored)
-├── .env                # Environment variables (gitignored)
-├── .env.example        # Example environment configuration
-├── package.json        # Project dependencies
+├── .env                # CLI environment variables (gitignored)
+├── .env.example        # Example CLI configuration
+├── package.json        # CLI dependencies
 └── README.md          # This file
 ```
 
