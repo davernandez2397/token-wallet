@@ -3,19 +3,15 @@ const chalk = require('chalk');
 const config = require('./config');
 
 /**
- * Get Etherscan API URL based on network
- * @returns {string} - Etherscan API base URL
+ * Get Etherscan API V2 base URL and chain ID
+ * @returns {Object} - API URL and chain ID
  */
-function getEtherscanApiUrl() {
-  const networkName = config.network.name.toLowerCase();
-
-  if (networkName.includes('sepolia')) {
-    return 'https://api-sepolia.etherscan.io/api';
-  } else if (networkName.includes('goerli')) {
-    return 'https://api-goerli.etherscan.io/api';
-  } else {
-    return 'https://api.etherscan.io/api';
-  }
+function getEtherscanApiConfig() {
+  // V2 API uses a single endpoint with chainid parameter
+  return {
+    baseUrl: 'https://api.etherscan.io/v2/api',
+    chainId: config.network.chainId
+  };
 }
 
 /**
@@ -41,8 +37,8 @@ async function getTransactionHistory(address, limit = 10) {
 
     console.log(chalk.blue(`\nFetching transaction history for ${address}...`));
 
-    const apiUrl = getEtherscanApiUrl();
-    const url = `${apiUrl}?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&offset=${limit}&sort=desc&apikey=${config.etherscanApiKey}`;
+    const apiConfig = getEtherscanApiConfig();
+    const url = `${apiConfig.baseUrl}?chainid=${apiConfig.chainId}&module=account&action=txlist&address=${address}&page=1&offset=${limit}&sort=desc&apikey=${config.etherscanApiKey}`;
 
     const response = await fetch(url);
     const data = await response.json();
@@ -82,8 +78,8 @@ async function getTokenTransferHistory(address, tokenAddress = null, limit = 10)
 
     console.log(chalk.blue(`\nFetching token transfer history for ${address}...`));
 
-    const apiUrl = getEtherscanApiUrl();
-    let url = `${apiUrl}?module=account&action=tokentx&address=${address}&startblock=0&endblock=99999999&page=1&offset=${limit}&sort=desc&apikey=${config.etherscanApiKey}`;
+    const apiConfig = getEtherscanApiConfig();
+    let url = `${apiConfig.baseUrl}?chainid=${apiConfig.chainId}&module=account&action=tokentx&address=${address}&page=1&offset=${limit}&sort=desc&apikey=${config.etherscanApiKey}`;
 
     // Add token contract filter if provided
     if (tokenAddress && ethers.isAddress(tokenAddress)) {
