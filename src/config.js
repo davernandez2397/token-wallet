@@ -26,12 +26,11 @@ const NETWORKS = {
 };
 
 // Get current network from environment or default to sepolia
-const currentNetwork = process.env.NETWORK || 'sepolia';
+const envNetwork = process.env.NETWORK || 'sepolia';
+const currentNetwork = NETWORKS[envNetwork] ? envNetwork : 'sepolia';
 
-// Validate network
-if (!NETWORKS[currentNetwork]) {
-  console.error(`Invalid network: ${currentNetwork}. Using sepolia as default.`);
-  currentNetwork = 'sepolia';
+if (!NETWORKS[envNetwork]) {
+  console.error(`Invalid network: ${envNetwork}. Using sepolia as default.`);
 }
 
 // Export configuration

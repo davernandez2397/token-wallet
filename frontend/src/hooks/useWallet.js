@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { BrowserProvider } from 'ethers';
 import useWalletStore from '../store/walletStore';
 import { getNetworkByChainId } from '../config/networks';
@@ -19,7 +19,7 @@ export function useWallet() {
   } = useWalletStore();
 
   // Connect to MetaMask
-  const connect = async () => {
+  const connect = useCallback(async () => {
     if (typeof window.ethereum === 'undefined') {
       setError('MetaMask is not installed. Please install MetaMask to use this app.');
       return;
@@ -35,26 +35,26 @@ export function useWallet() {
 
       // Get signer and address
       const signer = await provider.getSigner();
-      const address = await signer.getAddress();
+      const walletAddress = await signer.getAddress();
 
       // Get chain ID
       const network = await provider.getNetwork();
-      const chainId = Number(network.chainId);
+      const walletChainId = Number(network.chainId);
 
       setWallet({
-        address,
+        address: walletAddress,
         provider,
         signer,
-        chainId
+        chainId: walletChainId
       });
     } catch (err) {
       console.error('Failed to connect wallet:', err);
       setError(err.message || 'Failed to connect wallet');
     }
-  };
+  }, [setConnecting, clearError, setWallet, setError]);
 
   // Switch network
-  const switchNetwork = async (targetChainId) => {
+  const switchNetwork = useCallback(async (targetChainId) => {
     if (typeof window.ethereum === 'undefined') {
       setError('MetaMask is not installed');
       return;
@@ -73,7 +73,7 @@ export function useWallet() {
         setError(err.message || 'Failed to switch network');
       }
     }
-  };
+  }, [setError]);
 
   // Listen for account changes
   useEffect(() => {
@@ -88,10 +88,8 @@ export function useWallet() {
       }
     };
 
-    const handleChainChanged = (chainIdHex) => {
-      const newChainId = parseInt(chainIdHex, 16);
-      setChainId(newChainId);
-      // Reload to ensure proper state
+    const handleChainChanged = () => {
+      // Reload to ensure proper state with new chain
       window.location.reload();
     };
 
@@ -110,7 +108,7 @@ export function useWallet() {
         window.ethereum.removeListener('disconnect', handleDisconnect);
       }
     };
-  }, [address]);
+  }, [address, connect, disconnect]);
 
   // Auto-reconnect on page load if previously connected
   useEffect(() => {
@@ -128,7 +126,7 @@ export function useWallet() {
     };
 
     autoConnect();
-  }, []);
+  }, [connect]);
 
   const currentNetwork = getNetworkByChainId(chainId);
 
