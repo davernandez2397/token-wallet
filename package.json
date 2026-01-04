@@ -1,7 +1,7 @@
 {
-  "name": "token-wallet",
+  "name": "ethereum-testnet-token-wallet",
   "version": "1.0.0",
-  "description": "A beginner-friendly Ethereum token wallet CLI application",
+  "description": "Ethereum Testnet Token Wallet - A beginner-friendly wallet for Sepolia testnet",
   "main": "src/index.js",
   "bin": {
     "token-wallet": "./src/index.js"

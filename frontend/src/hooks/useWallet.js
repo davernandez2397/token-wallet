@@ -7,6 +7,7 @@ export function useWallet() {
   const {
     address,
     chainId,
+    signer,
     isConnected,
     isConnecting,
     error,
@@ -133,6 +134,7 @@ export function useWallet() {
   return {
     address,
     chainId,
+    signer,
     network: currentNetwork,
     isConnected,
     isConnecting,

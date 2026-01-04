@@ -1,6 +1,6 @@
-# Ethereum Token Wallet
+# Ethereum Testnet Token Wallet
 
-A beginner-friendly wallet for interacting with Ethereum and ERC-20 tokens. Includes both a CLI tool and a modern web interface. Perfect for learning blockchain development!
+A beginner-friendly wallet for interacting with Ethereum Sepolia testnet and ERC-20 tokens. Includes both a CLI tool and a modern web interface. Perfect for learning blockchain development!
 
 ## Features
 
